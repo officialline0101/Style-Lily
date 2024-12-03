@@ -744,7 +744,7 @@ const times = [
     '16:00', '16:30',
     '17:00', '17:30',
     '18:00', '18:30',
-    '19:00', '19:30'
+    '19:00', '19:30', '20:00'
 ];
 
             if (table.rows.length === 0) {
@@ -821,8 +821,8 @@ if (slotEnd.getDate() !== slotStart.getDate()) {
     continue;
 }
 
-// 18時以降に終了する予約を不可にする (17:30は可)
-if (slotEnd.getHours() === 19 && slotEnd.getMinutes() > 30) {
+// 19:30以降に終了する予約を不可にする (19:30は可)
+if (slotEnd.getHours() === 19 && slotEnd.getMinutes() > 40) {
     cell.textContent = '✕';
     cell.classList.add('unavailable');
     continue;
