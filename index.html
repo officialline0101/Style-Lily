@@ -822,7 +822,7 @@ if (slotEnd.getDate() !== slotStart.getDate()) {
 }
 
 // 19:30以降に終了する予約を不可にする (19:30は可)
-if (slotEnd.getHours() === 19 && slotEnd.getMinutes() > 40) {
+if (slotEnd.getHours() === 19 && slotEnd.getMinutes() > 30) {
     cell.textContent = '✕';
     cell.classList.add('unavailable');
     continue;
