@@ -832,7 +832,18 @@ if (slotEnd.getHours() === 19 && slotEnd.getMinutes() > 30) {
     continue;
 }
 
-// ここで終了時間を使った条件処理を行う
+// 現在時刻が09:00以降かどうかを判定
+const nineAM = new Date();
+nineAM.setHours(9, 0, 0, 0); // 今日の09:00を設定
+const isAfterNineAM = now >= nineAM;
+
+// 09:00以降であればその日のセルをすべて×に設定
+if (isAfterNineAM && day.toDateString() === now.toDateString()) {
+    cell.textContent = '✕';
+    cell.classList.add('unavailable');
+    continue;
+}
+
 // 例えば、リアルタイムで既に過ぎた時間帯は×にする
 if (slotStart < now) {
     cell.textContent = '✕';
