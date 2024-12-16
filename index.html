@@ -120,7 +120,7 @@
             /* カレンダーを中央に配置 */
             margin-bottom: 20px;
             position: relative;
-            width: 106%;
+            width: 100%;
             /* 横幅を広げる */
             margin-left: -3%;
             /* 親要素の中心にカレンダーを配置 */
@@ -235,15 +235,8 @@
             display: none;
         }
 
-        #treatment-text {
-            background-color: #eef9f5;
-            padding: 10px;
-            border-radius: 4px;
-            margin-top: 20px;
-        }
-
         .highlight-background {
-            background-color: #f9f9d6;
+            background-color: #13ca5e;
             padding: 10px;
             border-radius: 10px;
             margin-bottom: 15px;
@@ -269,61 +262,189 @@
             font-weight: bold;
             /* 太文字に設定 */
         }
+
+    .symptoms,
+    .options {
+        display: block;
+        /* ボタンを縦並びに */
+    }
+
+    .symptoms button,
+    .options button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f7f7f7;
+        cursor: pointer;
+        box-sizing: border-box;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .symptoms button.active,
+    .options button.active {
+        background-color: #444;
+        color: #fff;
+    }
+    .highlight-background {
+    cursor: pointer;
+    background-color: #13ca5e;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px; /* テキストを読みやすく */
+    display: flex;
+    justify-content: center; /* オプションを中央寄せ */
+    align-items: center;
+    position: relative; /* プラス記号を右端に配置 */
+}
+
+.highlight-text {
+    font-weight: bold;
+    display: inline-block;
+    color: #fff; /* オプションテキストの色 */
+}
+
+#toggle-symbol {
+    font-weight: bold;
+    font-size: 24px; /* 記号を大きく見やすく */
+    color: #fff; /* 青色で目立たせる */
+    position: absolute; /* 右端に配置 */
+    right: 15px; /* 右端との距離を調整 */
+    top: 15%; /* 親要素の中央に配置 */
+    transition: transform 0.2s ease, color 0.2s ease; /* アニメーション効果 */
+}
+
+.highlight-background:hover #toggle-symbol {
+    transform: scale(1.2); /* ホバー時に拡大 */
+    color: #fff; /* 色を濃く */
+}
+.symptoms button,
+    .options button {
+        font-weight: bold; /* 太文字に設定 */
+        text-align: left; /* 左端揃えに設定 */
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f7f7f7;
+        cursor: pointer;
+        box-sizing: border-box;
+        white-space: nowrap;
+    }
+
+    .symptoms button.active,
+    .options button.active {
+        background-color: #444;
+        color: #fff;
+    }
+    .info-text {
+    margin-top: 20px; /* 下にずらすスペース */
+    font-size: 13px;  /* 読みやすいサイズ */
+    color: #000000;   /* 説明文らしい落ち着いた色 */
+    line-height: 1.5; /* テキスト間の高さを適切に設定 */
+    text-align: center; /* 中央揃え */
+    word-wrap: break-word; /* 長いテキストの折り返しを強制 */
+}
+
+/* 携帯端末向けのレスポンシブデザイン */
+@media (max-width: 768px) {
+    .info-text {
+        font-size: 10px; /* スマホでは少し小さく */
+        margin-top: 15px; /* 上下のマージンを調整 */
+        line-height: 1.4; /* テキストの高さ調整 */
+    }
+}
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Style Lily<br>予約フォーム</h1>
-        <div class="label">お客様名※必須</div>
-        <input type="text" id="name" placeholder="お名前を入力してください">
+        <h1>Style Lily<br>空き枠確認 / 予約フォーム</h1>
 
-        <div class="label">電話番号※必須</div>
-        <input type="tel" id="phone" placeholder="電話番号を入力してください">
-
-        <div class="label">メールアドレス※必須</div>
-        <input type="text" id="mail" placeholder="メールアドレスを入力してください">
-
-        <div class="label">ご来店回数</div>
-        <div class="visit-buttons">
-            <button type="button" id="firstVisit" onclick="selectVisit(this)">1回目</button>
-            <button type="button" id="repeatVisit" onclick="selectVisit(this)">2回目以降</button>
-        </div>
-
-        <div class="label">メニューをお選びください</div>
+        <div class="label">撮影プランをお選びください</div>
+        <div class="info-text">※プランを選択すると空き状況のカレンダーが表示されます</div>
         <div id="treatment-text" style="margin-bottom: 20px;"></div>
         <div class="symptoms">
-            <button type="button" onclick="selectSymptom(this)" data-price="15000">ベーシックプラン</button>
-            <button type="button" onclick="selectSymptom(this)" data-price="15000">マタニティプラン</button>
-            <button type="button" onclick="selectSymptom(this)" data-price="15000">ウェディングプラン</button>
-            <button type="button" onclick="selectSymptom(this)" data-price="15000">キッズバースデープラン</button>
+            <button type="button" onclick="selectSymptom(this, null, 'basicPlan')">ベーシックプラン</button>
+            <button type="button" onclick="selectSymptom(this, null, 'maternityPlan')">マタニティプラン</button>
+            <button type="button" onclick="selectSymptom(this, null, 'weddingPlan')">ウェディングプラン</button>
+            <button type="button" onclick="selectSymptom(this, null, 'kidsPlan')">キッズバースデープラン</button>
         </div>
-        <div class="highlight-background">
-            <span class="highlight-text">オプション</span>
+        <div class="highlight-background" style="font-weight: bold; text-align: left;">
+            <span class="highlight-text" id="toggle-options" onclick="toggleOptions()">オプション <span id="toggle-symbol">＋</span></span>
         </div>
-        <div class="irradiations">
-            <button type="button" id="firstirradiations" onclick="selectirradiations(this)" data-price="15000">新婦ヘアセット6600円</button>
-            <button type="button" id="repeatirradiations" onclick="selectirradiations(this)" data-price="15000">新郎ヘアセット5500円</button>
-            <button type="button" id="sanirradiations" onclick="selectirradiations(this)" data-price="15000">フルメイク5500円</button>
-            <button type="button" id="yonirradiations" onclick="selectirradiations(this)" data-price="15000">衣装追加レンタル（ウェディングドレス）11000円</button>
-            <button type="button" id="goirradiations" onclick="selectirradiations(this)" data-price="15000">衣装追加レンタル（メンズ衣装）5500円</button>
-            <button type="button" id="rokuirradiations" onclick="selectirradiations(this)" data-price="15000">衣装追加レンタル（マタニティドレス）5500円</button>
-            <button type="button" id="sitiirradiations" onclick="selectirradiations(this)" data-price="15000">花の装飾追加レンタル5500円</button>
-            <button type="button" id="hatiirradiations" onclick="selectirradiations(this)" data-price="15000">人数追加（5名以上希望の方一人につき）1100円</button>
-            <button type="button" id="rokuirradiations" onclick="selectirradiations(this)" data-price="15000">時間追加（10分）1100円</button>
-            <button type="button" id="sitiirradiations" onclick="selectirradiations(this)" data-price="15000">時間追加（20分）2200円</button>
-            <button type="button" id="hatiirradiations" onclick="selectirradiations(this)" data-price="15000">時間追加（30分）3300円</button>
-            <button type="button" id="rokuirradiations" onclick="selectirradiations(this)" data-price="15000">時間追加（40分）4400円</button>
-            <button type="button" id="sitiirradiations" onclick="selectirradiations(this)" data-price="15000">時間追加（50分）5500円</button>
-            <button type="button" id="hatiirradiations" onclick="selectirradiations(this)" data-price="15000">時間追加（60分）6600円</button>
+        <div id="irradiations">
+            <div id="basicPlan" class="options" style="display: none;">
+                <button type="button" onclick="selectirradiations(this)" data-price="6600">新婦ヘアセット 6,600円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">新郎ヘアセット 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">フルメイク 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="11000">衣装追加レンタル（ウェディングドレス） 11,000円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">衣装追加レンタル（メンズ衣装） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">衣装追加レンタル（マタニティドレス） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">花の装飾追加レンタル 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">人数追加（5名以上一人につき） 1,100円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（10分） 1,100円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（20分） 2,200円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（30分） 3,300円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（40分） 4,400円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（50分） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（60分） 6,600円</button>
+            </div>
+            <div id="maternityPlan" class="options" style="display: none;">
+                <button type="button" onclick="selectirradiations(this)" data-price="6600">新婦ヘアセット 6,600円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">新郎ヘアセット 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">フルメイク 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">衣装追加レンタル（メンズ衣装） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">衣装追加レンタル（マタニティドレス） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">花の装飾追加レンタル 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">人数追加（5名以上一人につき） 1,100円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（10分） 1,100円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（20分） 2,200円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（30分） 3,300円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（40分） 4,400円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（50分） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（60分） 6,600円</button>
+            </div>
+            <div id="weddingPlan" class="options" style="display: none;">
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">新郎ヘアセット 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">フルメイク 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="11000">衣装追加レンタル（ウェディングドレス） 11,000円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">衣装追加レンタル（メンズ衣装） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">花の装飾追加レンタル 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">人数追加（5名以上一人につき） 1,100円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（10分） 1,100円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（20分） 2,200円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（30分） 3,300円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（40分） 4,400円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（50分） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（60分） 6,600円</button>
+            </div>
+            <div id="kidsPlan" class="options" style="display: none;">
+                <button type="button" onclick="selectirradiations(this)" data-price="11000">衣装追加レンタル（ウェディングドレス） 11,000円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">衣装追加レンタル（メンズ衣装） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">衣装追加レンタル（マタニティドレス） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="5500">花の装飾追加レンタル 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">人数追加（5名以上一人につき） 1,100円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（10分） 1,100円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（20分） 2,200円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（30分） 3,300円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（40分） 4,400円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（50分） 5,500円</button>
+                <button type="button" onclick="selectirradiations(this)" data-price="1100">時間追加（60分） 6,600円</button>
+            </div>
         </div>
 
-        <div class="label">希望日時</div>
         <div class="calendar-container">
             <div class="week-button-container">
-                <button class="week-button" onclick="previousWeek()">前の週</button>
+                <button class="week-button" onclick="previousWeek()">← 前の週</button>
                 <span class="current-month" id="currentMonth">月</span>
-                <button class="week-button" onclick="nextWeek()">翌週</button>
+                <button class="week-button" onclick="nextWeek()">次の週→</button>
             </div>
             <div id="calendar1" class="calendar">
                 <table>
@@ -348,6 +469,15 @@
                 <div class="spinner"></div>
             </div>
         </div>
+
+        <div class="label">お客様名※必須</div>
+        <input type="text" id="name" placeholder="お名前を入力してください">
+
+        <div class="label">電話番号※必須</div>
+        <input type="tel" id="phone" placeholder="電話番号を入力してください">
+
+        <div class="label">メールアドレス※必須</div>
+        <input type="text" id="mail" placeholder="メールアドレスを入力してください">
 
         <div class="label">メッセージ<br>（質問等お気軽にご記入ください）</div>
         <textarea id="message" rows="4" placeholder="メッセージを入力してください"></textarea>
@@ -392,20 +522,20 @@
 
         // 訪問回数ごとの時間設定 (例：初めて=20分、2回目以降=15分)
         let irradiationsTimes = {
-            '新婦ヘアセット6600円': 40,
-            '新郎ヘアセット5500円': 20,
-            'フルメイク5500円': 40,
-            '衣装追加レンタル（ウェディングドレス）11000円': 15,
-            '衣装追加レンタル（メンズ衣装）5500円': 15,
-            '衣装追加レンタル（マタニティドレス）5500円': 15,
-            '花の装飾追加レンタル5500円': 0,
-            '人数追加（5名以上希望の方一人につき）1100円': 0,
-            '時間追加（10分）1100円': 10,
-            '時間追加（20分）2200円': 20,
-            '時間追加（30分）3300円': 30,
-            '時間追加（40分）4400円': 40,
-            '時間追加（50分）5500円': 50,
-            '時間追加（60分）6600円': 60
+            '新婦ヘアセット 6,600円': 40,
+            '新郎ヘアセット 5,500円': 20,
+            'フルメイク 5,500円': 40,
+            '衣装追加レンタル（ウェディングドレス） 11,000円': 15,
+            '衣装追加レンタル（メンズ衣装） 5,500円': 15,
+            '衣装追加レンタル（マタニティドレス） 5,500円': 15,
+            '花の装飾追加レンタル 5,500円': 0,
+            '人数追加（5名以上希望の方一人につき） 1,100円': 0,
+            '時間追加（10分） 1,100円': 10,
+            '時間追加（20分） 2,200円': 20,
+            '時間追加（30分） 3,300円': 30,
+            '時間追加（40分） 4,400円': 40,
+            '時間追加（50分） 5,500円': 50,
+            '時間追加（60分） 6,600円': 60
         };
 
         let selectedirradiationsTime = 0; // 訪問回数で選択された時間
@@ -416,7 +546,6 @@
             'ウェディングプラン': 270,
             'キッズバースデープラン': 150
         };
-
 
         let selectedMenuTime = 0;
 
@@ -451,8 +580,6 @@
             // displayInfo要素に情報を表示
             document.getElementById('displayInfo').innerHTML = `
         <p>・<span style="color:red;"><strong>お名前</strong></span>：${name}</p>
-        <hr>
-        <p>${visitCountText}</p>
         <hr>
         <p>${selectedSymptomText}</p>
         <hr>
@@ -503,111 +630,171 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        function selectSymptom(button, treatmentId) {
+// オプションの表示・非表示を切り替える関数
+    function toggleOptions() {
+        const optionsDiv = document.getElementById('irradiations');
+        const toggleSymbol = document.getElementById('toggle-symbol');
+
+        if (optionsDiv.style.display === 'none' || optionsDiv.style.display === '') {
+            optionsDiv.style.display = 'block'; // オプションを表示
+            toggleSymbol.textContent = '－';    // マイナス記号に変更
+        } else {
+            optionsDiv.style.display = 'none'; // オプションを非表示
+            toggleSymbol.textContent = '＋';    // プラス記号に変更
+        }
+    }
+
+        function showOptions(planId) {
+    // すべてのオプションを非表示
+    const allOptions = document.querySelectorAll('.options');
+    allOptions.forEach(option => option.style.display = 'none');
+
+    // 指定されたプランのオプションを表示
+    const selectedOptions = document.getElementById(planId);
+    if (selectedOptions) {
+        selectedOptions.style.display = 'block';
+    }
+
+    // オプションを表示する「＋」ボタンをリセット
+    const toggleSymbol = document.getElementById('toggle-symbol');
+    toggleSymbol.textContent = '－'; // 最初にオプションを表示
+}
+
+    function selectSymptom(button, treatmentId, planId) {
     // 選択された日時をリセット
     selectedFullDate = '';
 
-            // ボタンの選択状態を切り替える
-            button.classList.toggle('active');
+    // ボタンの選択状態を切り替える
+    button.classList.toggle('active');
 
-            // 選択されたオプションを取得
-            const updatedSelectedButtons = document.querySelectorAll('.symptoms button.active');
+    // 選択されたオプションを取得
+    const updatedSelectedButtons = document.querySelectorAll('.symptoms button.active');
 
-            if (updatedSelectedButtons.length === 0) {
-                // すべてのボタンの選択が解除された場合、メニュー時間を0にリセット
-                selectedMenuTime = 0;
-                selectedSymptom = null; // 選択されたメニューをリセット
-                menuPrice = 0; // メニュー価格をリセット
-            } else {
-                // 1つだけ選択状態にする
-                if (updatedSelectedButtons.length > 1) {
-                    updatedSelectedButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active'); // クリックしたボタンだけを選択
-                }
-
-                // 選択されたメニューの時間を取得して保存
-                const selectedMenu = button.textContent;
-                selectedMenuTime = menuTimes[selectedMenu] || 0; // メニュー時間を取得して保存
-                selectedSymptom = [selectedMenu]; // 選択されたメニュー名を配列として保存
-                menuPrice = parseInt(button.getAttribute('data-price'), 10) || 0;  // メニューの価格を取得
-            }
-
-            console.log('選択されたメニューの時間:', selectedMenuTime);
-
-            // カレンダーを更新するために取得する日付を渡す
-            fetchAvailability(currentDate);
-
-            // トリートメントテキストを表示
-            const treatmentText = document.getElementById('treatment-text');
-
-            if (treatmentId === 'treatment1') {
-                treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：90分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：6,500円<br>初診料：＋2,200円</strong></div>`;
-            } else if (treatmentId === 'treatment2') {
-                treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：60分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：4,500円<br>初診料：＋2,200円</strong></div>`;
-            } else if (treatmentId === 'treatment3') {
-                treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：120分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：8,700円<br>初診料：＋2,200円</strong></div>`;
-            } else if (treatmentId === 'treatment4') {
-                treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：30分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：1,700円<br>初診料：＋2,200円</strong></div>`;
-            } else if (treatmentId === 'treatment5') {
-                treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：60分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：6,500円</strong></div>`;
-            } else if (treatmentId === 'treatment6') {
-                treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：30分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：4,500円</strong></div>`;
-            } else if (treatmentId === 'treatment7') {
-                treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：90分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：8,700円</strong></div>`;
-            } else if (treatmentId === 'treatment8') {
-                treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：15分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：1,700円</strong></div>`;
-            } else if (treatmentId === 'treatment9') {
-                treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：15分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：1,700円</strong></div>`;
-            } else {
-                treatmentText.innerHTML = '';
-            }
-
-            // 選択されたメニューの名前と価格を取得
-            const symptomName = button.textContent;  // ボタンのテキストを取得
-            selectedSymptom = [symptomName];  // 選択されたメニュー名を配列として保存
-            menuPrice = parseInt(button.getAttribute('data-price'), 10) || 0;  // メニューの価格を取得
-
-            // 表示を更新
-            updateDisplayInfo();
+    if (updatedSelectedButtons.length === 0) {
+        // すべてのボタンの選択が解除された場合、メニュー時間を0にリセット
+        selectedMenuTime = 0;
+        selectedSymptom = null;
+        menuPrice = 0;
+    } else {
+        if (updatedSelectedButtons.length > 1) {
+            updatedSelectedButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active'); // クリックしたボタンだけを選択
         }
 
-        function selectirradiations(button) {
+        const selectedMenu = button.textContent;
+        selectedMenuTime = menuTimes[selectedMenu] || 0;
+        selectedSymptom = [selectedMenu];
+        menuPrice = parseInt(button.getAttribute('data-price'), 10) || 0;
+    }
+
+    console.log('選択されたメニューの時間:', selectedMenuTime);
+
+    // カレンダーを更新
+    fetchAvailability(currentDate);
+
+    // プランに基づくオプションの内容設定
+    const allOptions = document.querySelectorAll('.options');
+    allOptions.forEach(option => option.style.display = 'none'); // 他のオプション非表示
+
+    const selectedOptions = document.getElementById(planId);
+    if (selectedOptions) {
+        selectedOptions.style.display = 'block'; // 該当オプションのみ表示
+    }
+
+    // ただしオプション全体は非表示のまま
+    document.getElementById('irradiations').style.display = 'none';
+    document.getElementById('toggle-symbol').textContent = '＋'; // プラス記号を維持
+
+    // トリートメントテキストを表示
+    const treatmentText = document.getElementById('treatment-text');
+
+    if (treatmentId === 'treatment1') {
+        treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：90分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：6,500円<br>初診料：＋2,200円</strong></div>`;
+    } else if (treatmentId === 'treatment2') {
+        treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：60分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：4,500円<br>初診料：＋2,200円</strong></div>`;
+    } else if (treatmentId === 'treatment3') {
+        treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：120分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：8,700円<br>初診料：＋2,200円</strong></div>`;
+    } else if (treatmentId === 'treatment4') {
+        treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：30分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：1,700円<br>初診料：＋2,200円</strong></div>`;
+    } else if (treatmentId === 'treatment5') {
+        treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：60分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：6,500円</strong></div>`;
+    } else if (treatmentId === 'treatment6') {
+        treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：30分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：4,500円</strong></div>`;
+    } else if (treatmentId === 'treatment7') {
+        treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：90分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：8,700円</strong></div>`;
+    } else if (treatmentId === 'treatment8') {
+        treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：15分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：1,700円</strong></div>`;
+    } else if (treatmentId === 'treatment9') {
+        treatmentText.innerHTML = `<div style="text-align: left;"><strong>所要時間：15分</strong><br>※症状によりお時間が前後する場合がございます</div><div style="text-align: right;"><strong>料金：1,700円</strong></div>`;
+    } else {
+        treatmentText.innerHTML = '';
+    }
+
+    // プランに基づくオプションを表示
+    if (planId) {
+        const allOptions = document.querySelectorAll('.options');
+        allOptions.forEach(option => option.style.display = 'none');
+
+        const selectedOptions = document.getElementById(planId);
+        if (selectedOptions) {
+            selectedOptions.style.display = 'block';
+        }
+    } else {
+        console.error('planIdが指定されていません');
+    }
+
+    // 表示を更新
+    updateDisplayInfo();
+}
+
+function selectirradiations(button) {
     // 選択された日時をリセット
     selectedFullDate = '';
 
-            // ボタンの選択状態を切り替える
-            button.classList.toggle('active');
+    // ボタンの選択状態を切り替える
+    button.classList.toggle('active');
 
-            // 選択されたオプションを取得
-            const selectedButtons = document.querySelectorAll('.irradiations button.active');
-            const selectedIrradiations = Array.from(selectedButtons).map(btn => btn.innerText);
-            irradiationsCount = selectedIrradiations.join(', ');
+    // 各プランのdiv要素を取得
+    const basicPlan = document.getElementById('basicPlan');
+    const maternityPlan = document.getElementById('maternityPlan');
+    const weddingPlan = document.getElementById('weddingPlan');
+    const kidsPlan = document.getElementById('kidsPlan');
 
-            // すべてのオプションの価格を再計算
-            optionsPrice = 0; // 全体をリセットして再計算
-            let totalirradiationsTime = 0; // 選択されたすべてのオプションの合計時間
-            selectedButtons.forEach(btn => {
-                const price = parseInt(btn.getAttribute('data-price'), 10);
-                optionsPrice += price;
+    // 選択されたオプションを取得
+    const selectedButtons = document.querySelectorAll('.options button.active');
+    const selectedIrradiations = Array.from(selectedButtons).map(btn => btn.innerText);
+    irradiationsCount = selectedIrradiations.join('. ');
 
-                // 各オプションの時間を加算
-                const irradiationName = btn.innerText;
-                const irradiationTime = irradiationsTimes[irradiationName] || 0;
-                totalirradiationsTime += irradiationTime;
-            });
+    // すべてのオプションの価格を再計算
+    optionsPrice = 0; // 全体をリセットして再計算
+    let totalirradiationsTime = 0; // 選択されたすべてのオプションの合計時間
+    selectedButtons.forEach(btn => {
+        const price = parseInt(btn.getAttribute('data-price'), 10);
+        optionsPrice += price;
 
-            // selectedirradiationsTimeに合計時間を設定
-            selectedirradiationsTime = totalirradiationsTime;
+        // 各オプションの時間を加算
+        const irradiationName = btn.innerText;
+        const irradiationTime = irradiationsTimes[irradiationName] || 0;
+        totalirradiationsTime += irradiationTime;
+    });
 
-            console.log('選択されたオプションの合計時間:', selectedirradiationsTime);
+    // selectedirradiationsTimeに合計時間を設定
+    selectedirradiationsTime = totalirradiationsTime;
 
-            // カレンダーを更新するために取得する日付を渡す
-            fetchAvailability(currentDate);
+    console.log('選択されたオプションの合計時間:', selectedirradiationsTime);
 
-            // 表示を更新
-            updateDisplayInfo();
-        }
+    // カレンダーを更新するために取得する日付を渡す
+    fetchAvailability(currentDate);
 
+    // 表示を更新
+    updateDisplayInfo();
+
+    // デバッグ: 各プランの状態を確認
+    console.log('Basic Plan:', basicPlan);
+    console.log('Maternity Plan:', maternityPlan);
+    console.log('Wedding Plan:', weddingPlan);
+    console.log('Kids Plan:', kidsPlan);
+}
 
         function updateTotalAmount() {
             totalAmount = menuPrice + optionsPrice; // オプションの価格も含める
@@ -693,7 +880,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // LINEトークにメッセージを送信
             liff.sendMessages([{
                 type: 'text',
-                text: `【予約フォーム】\nお名前：${formData.name}\n電話番号：${formData.phone}\nメールアドレス：${formData.mail}\nご来店回数：${formData.visitCount}\nメニュー：${formData.selectedSymptom},${formData.irradiationsCount}\n希望日時：\n ${formData.dates[0]}\nメッセージ：${formData.message}`
+                text: `【予約フォーム】\nお名前：${formData.name}\n電話番号：${formData.phone}\nメールアドレス：${formData.mail}\nメニュー：${formData.selectedSymptom}.${formData.irradiationsCount}\n希望日時：\n ${formData.dates[0]}\nメッセージ：${formData.message}`
             }]).then(() => {
                 /* メッセージ送信成功時の処理 */
                 alert('当日キャンセルは無いようにお願いいたします。キャンセル料発生いたします。');
@@ -725,7 +912,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const url = 'https://script.google.com/macros/s/AKfycbwXLPa4lbo9gkrf7gAz3brdBUAar4-mozrVozquC1aagnGF239sPjuVhbYSMlqYMRiM/exec' +
+            const url = 'https://script.google.com/macros/s/AKfycbw0h2dvikIYUJKpOJExK6s3vScTLrk9nsHDZQRIdNusjrvNMPLxD-R2ib_mL5pIT8DX/execc' +
                 `?startTime=${startTime.toISOString()}&endTime=${endTime.toISOString()}`;
 
             try {
