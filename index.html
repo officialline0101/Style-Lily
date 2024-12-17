@@ -186,11 +186,12 @@
     margin-left: 31px; /* 左側に20pxの余白を追加して右にずらす */
 }
 
-        .current-month {
-            font-size: 16px;
-            font-weight: bold;
-            color: #444;
-        }
+.current-month {
+    font-size: 14px; /* フォントサイズを16pxに設定 */
+    font-weight: bold; /* テキストを太字に設定 */
+    color: #444; /* テキストの色を濃いグレーに設定 */
+    margin-left: 30px; /* 10pxだけ右にずらす */
+}
 
         .loading-spinner {
     position: fixed; /* 画面全体に対応 */
@@ -459,9 +460,9 @@
 
         <div class="calendar-container">
             <div class="week-button-container">
-                <button class="week-button" onclick="previousWeek()">← 前の週</button>
+                <button class="week-button" onclick="previousWeek()">前の週<br>←</button>
                 <span class="current-month" id="currentMonth">月</span>
-                <button class="week-button" onclick="nextWeek()">次の週→</button>
+                <button class="week-button" onclick="nextWeek()">次の週<br>→</button>
             </div>
             <div id="calendar1" class="calendar">
                 <table>
